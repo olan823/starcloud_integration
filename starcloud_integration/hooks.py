@@ -1,0 +1,10 @@
+app_name = "starcloud_integration"
+app_title = "Starcloud Integration"
+app_publisher = "Skychip"
+app_description = "Native ERPNext integration boundary for Starcloud"
+app_email = ""
+app_license = "MIT"
+
+after_install = "starcloud_integration.install.after_install"
+after_migrate = "starcloud_integration.install.ensure_workspace"
+after_uninstall = "starcloud_integration.install.after_uninstall"

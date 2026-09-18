@@ -1,0 +1,1 @@
+recursive-include starcloud_integration *.json *.js *.py
