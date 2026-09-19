@@ -1,1 +1,1 @@
-recursive-include starcloud_integration *.csv *.json *.js *.py
+recursive-include starcloud_integration *.csv *.json *.js *.py *.svg

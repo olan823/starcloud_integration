@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Starcloud">
+  <rect width="64" height="64" rx="14" fill="#087EA4"/>
+  <path d="M18 43h29a9 9 0 0 0 1-17.94A15 15 0 0 0 19.4 22.8 10.5 10.5 0 0 0 18 43Z" fill="#FFFFFF"/>
+  <path d="m31.8 17.2 1.8 4.1 4.4.4-3.3 2.9 1 4.3-3.9-2.2-3.8 2.2.9-4.3-3.3-2.9 4.4-.4Z" fill="#FFD166"/>
+</svg>
