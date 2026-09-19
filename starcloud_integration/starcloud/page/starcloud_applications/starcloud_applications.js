@@ -50,6 +50,7 @@ frappe.pages["starcloud-applications"].on_page_load = function (wrapper) {
 						`<tr><th>${__("Status")}</th><td>${escape(application.status_title || "")}</td></tr>` +
 						`<tr><th>${__("Description")}</th><td>${escape(application.description || "")}</td></tr>` +
 						`<tr><th>${__("Application types")}</th><td>${escape((application.type || []).join(", "))}</td></tr>` +
+						`<tr><th>${__("Callback URL")}</th><td>${escape(application.callback_url || "")}</td></tr>` +
 						`<tr><th>${__("Callback events")}</th><td>${escape((application.callback_events || []).join(", "))}</td></tr>` +
 						`<tr><th>${__("Created")}</th><td>${escape(formatDate(application.created_at))}</td></tr>` +
 						"</tbody></table>",
