@@ -6,6 +6,8 @@ import frappe
 ROLES = ["Starcloud User", "Starcloud Admin"]
 WORKSPACE_NAME = "Starcloud"
 SHORTCUTS = [("应用审核", "starcloud-applications")]
+APP_NAME = "starcloud_integration"
+APP_LOGO_URL = "/assets/starcloud_integration/images/starcloud.svg?v=0.1.6"
 
 
 def after_install():
@@ -35,6 +37,7 @@ def ensure_module_def():
 def ensure_workspace():
     ensure_roles()
     ensure_module_def()
+    ensure_desktop_icon()
 
     content = json.dumps(
         [
@@ -73,4 +76,22 @@ def ensure_workspace():
     else:
         workspace.save(ignore_permissions=True)
 
-    frappe.clear_cache(doctype="Workspace")
+    frappe.clear_cache()
+
+
+def ensure_desktop_icon():
+    icon_name = frappe.db.get_value(
+        "Desktop Icon",
+        {"app": APP_NAME, "icon_type": "App"},
+        "name",
+    )
+    if icon_name and frappe.db.get_value("Desktop Icon", icon_name, "logo_url") != APP_LOGO_URL:
+        frappe.db.set_value(
+            "Desktop Icon",
+            icon_name,
+            "logo_url",
+            APP_LOGO_URL,
+            update_modified=False,
+        )
+        frappe.cache.delete_key("desktop_icons")
+        frappe.cache.delete_key("bootinfo")

@@ -4,7 +4,7 @@ app_publisher = "Skychip"
 app_description = "Native ERPNext integration boundary for Starcloud"
 app_email = ""
 app_license = "MIT"
-app_logo_url = "/assets/starcloud_integration/images/starcloud.svg"
+app_logo_url = "/assets/starcloud_integration/images/starcloud.svg?v=0.1.6"
 app_home = "/app/starcloud"
 
 add_to_apps_screen = [
