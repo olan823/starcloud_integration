@@ -50,7 +50,6 @@ frappe.pages["starcloud-applications"].on_page_load = function (wrapper) {
 						`<tr><th>${__("Status")}</th><td>${escape(application.status_title || "")}</td></tr>` +
 						`<tr><th>${__("Description")}</th><td>${escape(application.description || "")}</td></tr>` +
 						`<tr><th>${__("Application types")}</th><td>${escape((application.type || []).join(", "))}</td></tr>` +
-						`<tr><th>${__("Callback URL")}</th><td>${escape(application.callback_url || "")}</td></tr>` +
 						`<tr><th>${__("Callback events")}</th><td>${escape((application.callback_events || []).join(", "))}</td></tr>` +
 						`<tr><th>${__("Created")}</th><td>${escape(formatDate(application.created_at))}</td></tr>` +
 						"</tbody></table>",
@@ -81,13 +80,13 @@ frappe.pages["starcloud-applications"].on_page_load = function (wrapper) {
 			const rows = payload.items.map((application) => {
 				const owner = application.owner || {};
 				return `<tr><td>${application.id}</td><td>${escape(application.title || "")}</td>` +
-					`<td>${escape(owner.name || owner.email || "")}</td><td>${escape(application.callback_url || "")}</td>` +
+					`<td>${escape(owner.name || owner.email || "")}</td>` +
 					`<td>${escape(application.status_title || "")}</td><td>${escape(formatDate(application.created_at))}</td>` +
 					`<td><button class="btn btn-default btn-xs application-view" data-id="${application.id}">${__("Details")}</button></td></tr>`;
-			}).join("") || `<tr><td colspan="7" class="text-muted text-center">${__("No applications found.")}</td></tr>`;
+			}).join("") || `<tr><td colspan="6" class="text-muted text-center">${__("No applications found.")}</td></tr>`;
 			content.find(".starcloud-results").html(
 				'<table class="table table-bordered"><thead><tr>' +
-				`<th>ID</th><th>${__("Application")}</th><th>${__("Developer")}</th><th>${__("Callback URL")}</th>` +
+				`<th>ID</th><th>${__("Application")}</th><th>${__("Developer")}</th>` +
 				`<th>${__("Status")}</th><th>${__("Created")}</th><th>${__("Actions")}</th></tr></thead><tbody>${rows}</tbody></table>` +
 				'<div class="flex justify-between align-center">' +
 				`<span class="text-muted">${__("{0} records", [payload.pagination.total])}</span>` +
