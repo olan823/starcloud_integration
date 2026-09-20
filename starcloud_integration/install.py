@@ -8,6 +8,7 @@ WORKSPACE_NAME = "Starcloud"
 SHORTCUTS = [("应用审核", "starcloud-applications")]
 APP_NAME = "starcloud_integration"
 APP_LOGO_URL = "/assets/starcloud_integration/images/starcloud.svg?v=0.1.6"
+APP_HOME = "/app/starcloud"
 
 
 def after_install():
@@ -80,18 +81,40 @@ def ensure_workspace():
 
 
 def ensure_desktop_icon():
-    icon_name = frappe.db.get_value(
+    app_icon_names = frappe.get_all(
         "Desktop Icon",
-        {"app": APP_NAME, "icon_type": "App"},
-        "name",
+        filters={"app": APP_NAME, "icon_type": "App"},
+        pluck="name",
+        order_by="creation asc",
     )
-    if icon_name and frappe.db.get_value("Desktop Icon", icon_name, "logo_url") != APP_LOGO_URL:
-        frappe.db.set_value(
-            "Desktop Icon",
-            icon_name,
-            "logo_url",
-            APP_LOGO_URL,
-            update_modified=False,
-        )
-        frappe.cache.delete_key("desktop_icons")
-        frappe.cache.delete_key("bootinfo")
+    matching_icon_names = frappe.get_all(
+        "Desktop Icon", filters={"label": WORKSPACE_NAME}, pluck="name", order_by="creation asc"
+    )
+    icon_name = app_icon_names[0] if app_icon_names else None
+    icon_name = icon_name or (matching_icon_names[0] if matching_icon_names else None)
+
+    for duplicate_name in dict.fromkeys([*app_icon_names, *matching_icon_names]):
+        if duplicate_name != icon_name:
+            frappe.delete_doc("Desktop Icon", duplicate_name, force=True, ignore_permissions=True)
+
+    icon = (
+        frappe.get_doc("Desktop Icon", icon_name) if icon_name else frappe.new_doc("Desktop Icon")
+    )
+    icon.update(
+        {
+            "label": WORKSPACE_NAME,
+            "link_type": "External",
+            "icon_type": "App",
+            "app": APP_NAME,
+            "link": APP_HOME,
+            "logo_url": APP_LOGO_URL,
+        }
+    )
+
+    if icon.is_new():
+        icon.insert(ignore_permissions=True)
+    else:
+        icon.save(ignore_permissions=True)
+
+    frappe.cache.delete_key("desktop_icons")
+    frappe.cache.delete_key("bootinfo")
