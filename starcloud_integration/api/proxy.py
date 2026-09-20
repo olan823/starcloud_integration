@@ -136,6 +136,12 @@ def health_check():
 
 
 @frappe.whitelist()
+def dashboard_stats():
+    _require_access()
+    return _request("GET", "/api/erpnext/dashboard-stats")
+
+
+@frappe.whitelist()
 def applications(page=1, page_size=20, status=None, name=None, owner=None):
     _require_access()
     page = _positive_int(page, _("page"))
